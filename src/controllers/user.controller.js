@@ -83,13 +83,14 @@ const updateUser = (req, res)=> {
     const updateUser = userServices.updateUser(id, user);
 
     if (updateUser){
+        logger.info('Updating a User');
+
         return res.status(StatusCodes.OK).send({
             status:STATUS.SUCCESS,
             message: updateUser,
     });
 
 
-        logger.info('Updating a User');
 
     } else {
         return res.status(StatusCodes.NOT_FOUND).send({
@@ -107,13 +108,13 @@ const deleteUser = (req, res)=> {
 
     if (user){
         userServices.removeUser(id);
-
+        logger.info(`Removing user  ${id}`);
         return res.status(StatusCodes.OK).send({
             status: STATUS.SUCCESS,
             message: `User ${id} has been deleted.`
         }); 
 
-        logger.info(`Removing a ${id} user`);
+       
     } else {
         return res.status(StatusCodes.NOT_FOUND).send({
             status: STATUS.FAILURE,
