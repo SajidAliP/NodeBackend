@@ -1,6 +1,5 @@
 import * as yup from 'yup'
 
-
 const MIN_LENGTH = {
     name: 2,
     city: 1,
@@ -55,15 +54,12 @@ export const updateUser = {
     },
 };
 
-
-export const deleteUser = {
+export const removeUser = {
     schema: {
         params: {
-            yupSchema:yup.object().shape({
-            id: yup.number().required(),
-                })
-                   
-            },
+            yupSchema: yup.object().shape({
+                id: yup.number().required(),
+            })
         },
-
-}
+    },
+};
