@@ -1,43 +1,37 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
+import helmet from "helmet";
+import cors from 'cors'; 
+
+import userRoutes from './user.routes.js';
+import mainRoutes from './main.routes.js';
+import ratelimit from  "express-rate-limit";
+import  compression from "compression";
+
 
 const app = express();
-const port = 3000;
-const STATUS = {
-    SUCCESS: 'OK',
-    FAILURE: "NO",
-};
+const port = 4000;  
 
+const limiter = ratelimit({
+    max: 100,
+    windowsMs: 60 * 1000,
+})
+
+app.use(compression())
+
+app. use(limiter); //apply rate limiting middle ware 
 app.use(express.json());
+app.use(helmet());
+app.use(cors());
 
+app.use('/v1/user', userRoutes);
+app.use('v1/', mainRoutes);
 
 // localhost
 app.get('/home', (req, res)=> {
     res.status(StatusCodes.CREATED)
     res.send('Hello Emma!');
 });
-
-
-// send data (CRUD)
-app.post("/add", (req, res)=> {
-    const data  = [];
-    const { body} =req;
-
-    if(!body.name) {
-        return res.status(StatusCodes.BAD_REQUEST).send({
-            status:STATUS.FAILURE,
-            message: 'Name is required',
-        });
-    };
-
-
-    data.push(req.body);
-    res.status(StatusCodes.CREATED).send({
-        status:STATUS.SUCCESS,
-        message: data,
-    });
-});
-
 
 app.listen(port, () =>{
     console.log(`Hey, let go to http://localhost:${port}`);
