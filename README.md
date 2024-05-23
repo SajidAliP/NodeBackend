@@ -7,3 +7,6 @@ I built an API simple client with NodeJS and Express JS. This involved an API th
 npm run start
 ```
 
+
+## How to Contribute to this Project
+Check `Contributions.md` for more details
